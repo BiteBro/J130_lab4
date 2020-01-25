@@ -1,8 +1,7 @@
 package ru.avalon.java.tcp;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.io.*;
+import java.net.*;
 
 /**
  * Упражнение на выработку базовых умений использования
@@ -34,7 +33,7 @@ public final class TcpSender {
         /*
          * TODO Реализовать метод prepareMessage класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return "TCP sender message";
     }
 
     /**
@@ -42,11 +41,11 @@ public final class TcpSender {
      *
      * @return экземпля типа {@link SocketAddress}
      */
-    private static SocketAddress prepareAddress() {
+    private static SocketAddress prepareAddress() throws UnknownHostException{
         /*
          * TODO Реализовать метод prepareAddress класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return new InetSocketAddress(InetAddress.getLocalHost(), 8080);
     }
 
     /**
@@ -63,7 +62,10 @@ public final class TcpSender {
         /*
          * TODO Реализовать метод connect класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        Socket socket = new Socket();    
+        socket.connect(address);
+        return socket;
+        
     }
 
     /**
@@ -78,7 +80,10 @@ public final class TcpSender {
         /*
          * TODO Реализовать метод send класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        try(OutputStream stream = socket.getOutputStream()){
+            PrintWriter writer = new PrintWriter(stream);
+            writer.write(message);
+            writer.flush();
+        }
     }
-
 }

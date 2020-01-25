@@ -1,9 +1,9 @@
 package ru.avalon.java.udp;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketAddress;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.util.Scanner;
 
 /**
  * Упражнение, направленное на выработку умений, связанных
@@ -14,32 +14,39 @@ import java.net.SocketAddress;
 public final class UdpSender {
 
     public static void main(String[] args) throws IOException {
+        
+        String message ="";
+        while(true){
         // 1. Формируем сообщение
-        final String message = prepareMessage();
+        message = prepareMessage();
         // 2. Формируем адрес конечной точки.
         final SocketAddress address = prepareAddress();
         // 3. Формируем датаграмму.
         final DatagramPacket packet = pack(message);
         // 4. Устанавливаем адрес для пакета.
-        packet.setSocketAddress(address);
+              packet.setSocketAddress(address);
         // 5. Создаём сокет
-        DatagramSocket socket = createSocket();
+        final DatagramSocket socket = createSocket();
         // 6. Отправляем сообщение
-        socket.send(packet);
-        // 7. Освобождаем ресурсы
-        socket.close();
+        
+            socket.send(packet);
+            // 7. Освобождаем ресурсы
+            if (message == "`") {
+                socket.close();
+                return;
+            }
+        }                    
     }
-
+    
     /**
      * Возвращает сообщение.
      *
      * @return текстовое сообщение.
      */
     private static String prepareMessage() {
-        /*
-         * TODO Реализовать метод prepareMessage класса UdpSender
-         */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        Scanner scan = new Scanner(System.in);
+        String massage = scan.nextLine();
+        return massage;        
     }
 
     /**
@@ -47,11 +54,12 @@ public final class UdpSender {
      *
      * @return адрес конечной точки.
      */
-    private static SocketAddress prepareAddress() {
+    private static SocketAddress prepareAddress() throws UnknownHostException {
         /*
          * TODO Реализовать метод prepareAddress класса UdpSender
-         */
-        throw new UnsupportedOperationException("Not implemented yet!");
+         */        
+        SocketAddress ia = new InetSocketAddress(InetAddress.getLocalHost(), 18181);        
+        return ia;
     }
 
     /**
@@ -64,7 +72,7 @@ public final class UdpSender {
         /*
          * TODO Реализовать метод createSocket класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return new DatagramSocket();
     }
 
     /**
@@ -74,11 +82,11 @@ public final class UdpSender {
      *
      * @return экземпляр типа {@link DatagramPacket}.
      */
-    private static DatagramPacket pack(String message) {
+    private static DatagramPacket pack(String message) throws UnsupportedEncodingException {
         /*
          * TODO Реализовать метод pack класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return new DatagramPacket(message.getBytes("UTF-8"), message.length());
     }
 
 }

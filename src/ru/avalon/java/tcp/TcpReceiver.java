@@ -1,8 +1,7 @@
 package ru.avalon.java.tcp;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 /**
  * Упражнение на выаботку умений связанных с получением сообщений,
@@ -14,13 +13,14 @@ public final class TcpReceiver {
 
     public static void main(String[] args) throws IOException {
         // 1. Определяем порт, на котором ожидается соединение.
-        final int port = 0;
+        final int port = 8080;
         // 2. Подготавливаем серверный сокет.
         final ServerSocket listener = prepareServerSocket(port);
         // 3. Принимаем соединение.
         Socket socket = listener.accept();
         // 4. Полоучаем сообщение.
         final String message = receive(socket);
+        System.out.println(message);
         // 5. Закрываем соединение.
         socket.close();
         // 6. Закрываем серверный сокет.
@@ -36,11 +36,11 @@ public final class TcpReceiver {
      *
      * @return серверный сокет, связанный с портом {@code port}.
      */
-    private static ServerSocket prepareServerSocket(int port) {
+    private static ServerSocket prepareServerSocket(int port) throws IOException {
         /*
          * TODO Реализовать метод prepareServerSocket класса TcpReceiver
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        return new ServerSocket(port);
     }
 
     /**
@@ -51,11 +51,15 @@ public final class TcpReceiver {
      *
      * @return строковое сообщение.
      */
-    private static String receive(Socket socket) {
+    private static String receive(Socket socket) throws IOException {
         /*
          * TODO Реализовать метод receive класса TcpReceiver
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        try(InputStream is = socket.getInputStream()){
+            Reader reader = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(reader);
+            return br.readLine();
+        }
     }
 
 }

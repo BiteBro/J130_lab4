@@ -35,7 +35,7 @@ public interface Asynchronous extends Closeable {
     void run() throws Exception;
 
     /**
-     * Обработчик исключений, позникающих в методе {@code run}.
+     * Обработчик исключений, возникающих в методе {@code run}.
      *
      * @param e экземпляр исключения, возникшего в процессе исполнения
      *          метода {@code run} текущего экземпляра.
